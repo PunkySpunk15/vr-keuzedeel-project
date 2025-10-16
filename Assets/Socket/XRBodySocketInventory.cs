@@ -25,8 +25,6 @@ public class bodySocket
     [Tooltip("Forward/Back offset from center (-1 = back, 1 = forward)")]
     public float depthOffset = 0f;
 }
-
-[ExecuteAlways]
 public class XRBodySocketInventory : MonoBehaviour
 {
     [Header("References")]
@@ -90,13 +88,6 @@ public class XRBodySocketInventory : MonoBehaviour
             height,
             bodySocket.depthOffset
         );
-
-#if UNITY_EDITOR
-        if (!Application.isPlaying)
-        {
-            EditorUtility.SetDirty(bodySocket.gameObject.transform);
-        }
-#endif
     }
 
     private void UpdateSocketInventory()
@@ -139,10 +130,6 @@ public class XRBodySocketInventory : MonoBehaviour
                         height,
                         bodySocket.depthOffset
                     );
-
-#if UNITY_EDITOR
-                    EditorUtility.SetDirty(bodySocket.gameObject.transform);
-#endif
                 }
             }
         }

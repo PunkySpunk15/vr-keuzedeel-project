@@ -1,0 +1,343 @@
+# Blender 4.0.2 MTL File: 'tavern.blend'
+# www.blender.org
+
+newmtl ABS_(White)
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.964706 0.964706 0.952941
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl Aluminum_-_Satin
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.960784 0.960784 0.964706
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl Anthracit_ceramic_surface
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures/anthracit_creamic_BaseColor.png
+map_Bump -bm 0.100000 textures/anthracit_creamic_Normal.png
+
+newmtl Brown_shiny_ceramic
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures/ceramic02_diffuse.jpg
+map_Ks textures/ceramic02_specular.jpg
+map_refl textures/ceramic02_metallic.jpg
+map_Bump -bm 1.000000 textures/ceramic02_normal_opengl.jpg
+
+newmtl Ceramic_square_tiles
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Ns textures/ceramic_tiles_roughness.jpg
+map_refl textures/ceramic_tiles_metallic.jpg
+map_Bump -bm 1.000000 textures/ceramic_tiles_normal.jpg
+
+newmtl Coating_-_Black_Oxide
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.172549 0.172549 0.172549
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl Dark_metal
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/metal_basecolor.jpg
+map_Ks C:/metal_specular.jpg
+map_refl C:/metal_metallic.jpg
+map_Bump -bm 1.000000 C:/metal_normal_opengl.jpg
+
+newmtl Dirty_Wood_Planks
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd textures/dirty_wood_planks__Diffuse_.jpg
+map_Ns textures/dirty_wood_planks__Roughness_.jpg
+map_Bump -bm 1.000000 textures/dirty_wood_planks__Normal_.jpg
+
+newmtl Fabric_5
+Ka 0.200000 0.200000 0.200000
+Ks 0.200000 0.200000 0.200000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd -s 2 2 2 C:/Fabric-5_diffuse.jpg
+map_Ns -s 2 2 2 C:/Fabric-5_smooth.jpg
+
+newmtl Furniture_wood.001
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/wood15_diffuse.jpg
+map_Ns C:/wood15_roughness.jpg
+map_Bump -bm 1.000000 C:/wood15_normal.jpg
+
+newmtl Furniture_wood.003
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/wood15_diffuse.jpg
+map_Ns C:/wood15_roughness.jpg
+map_Bump -bm 1.000000 C:/wood15_normal.jpg
+
+newmtl Furniture_wood.004
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/wood15_diffuse.jpg
+map_Ns C:/wood15_roughness.jpg
+map_Bump -bm 1.000000 C:/wood15_normal.jpg
+
+newmtl Furniture_wood.005
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/wood15_diffuse.jpg
+map_Ns C:/wood15_roughness.jpg
+map_Bump -bm 1.000000 C:/wood15_normal.jpg
+
+newmtl Glazed_Ceramic_Black
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl M_Lamp
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:/M_Lamp_BaseColor.1001.png
+map_Ns C:/M_Lamp_Roughness.1001.png
+map_refl C:/M_Lamp_Metallic.1001.png
+map_Bump -bm 1.000000 C:/M_Lamp_Normal.1001.png
+
+newmtl Material
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures/calendar.jpeg
+
+newmtl Material.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures/starWars.jpeg
+
+newmtl Material.002
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures/wanted.jpg
+
+newmtl Material.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures/time_is_ah_tickin.jpg
+
+newmtl Material.004
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures/family.jpg
+
+newmtl Material.005
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures/red-river.jpg
+
+newmtl Metal_Wire_Mesh
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_refl C:/Chain_09_metallic.jpg
+map_d C:/Chain_09_opacity.jpg
+map_Bump -bm 1.000000 C:/Chain_09_normal.jpg
+
+newmtl Paint_-_Metallic_(Dark_Grey)
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.349020 0.349020 0.349020
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl Rough_Wood
+Ka 0.372727 0.372727 0.372727
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd textures/wood-71_diffuse.jpg
+map_Ns textures/wood-71_smooth.jpg
+
+newmtl Scratched_wood
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/wood_basecolor_diffuse.jpg
+map_Ks C:/wood_specular.jpg
+map_Bump -bm 1.000000 C:/wood_normal_opengl.jpg
+
+newmtl Shiny_blue_ceramic
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures/ceramic03_diffuse.jpg
+map_Ks textures/ceramic03_specular.jpg
+map_Bump -bm 1.000000 textures/ceramic03_normal_opengl.jpg
+
+newmtl Wood.002
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures/Wood_BaseColor.jpg
+map_Ns textures/Wood_Roughness.jpg
+map_Bump -bm 1.000000 textures/Wood_Normal.jpg
+
+newmtl Wood.005
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures/Wood_BaseColor.jpg
+map_Ns textures/Wood_Roughness.jpg
+map_Bump -bm 1.000000 textures/Wood_Normal.jpg
+
+newmtl Wood.006
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures/Wood_BaseColor.jpg
+map_Ns textures/Wood_Roughness.jpg
+map_Bump -bm 1.000000 textures/Wood_Normal.jpg
+
+newmtl Wood.120
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd -s 3 3 3 C:/wood-5-dark_diffuse.jpg
+map_Ns -s 3 3 3 textures/wood-5_smooth.jpg
+
+newmtl Wood_125_Dark
+Ka 0.200000 0.200000 0.200000
+Ks 0.200000 0.200000 0.200000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd -s 3 3 3 textures/wood-diffuse_125-dark.jpg
+map_Ns -s 3 3 3 textures/wood-smooth_125.jpg
+
+newmtl furniture_wood
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures/wood01_diffuse.jpg

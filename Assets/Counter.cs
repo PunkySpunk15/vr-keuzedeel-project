@@ -4,23 +4,27 @@ using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
-    public float timerCount = 15;
+    public float timerCount = 6;
     public TextMeshProUGUI TextElement;
-    public List<FireGun> fg = new List<FireGun>();
+    public List<FireGun> fg = new();
+    public Duel duel = new();
 
     private void Update()
     {
-        if (timerCount <= 0)
+        if (duel.active)
         {
-            foreach (FireGun gun in fg)
+            if (timerCount <= 0)
             {
-                gun.allowFire = true;
+                foreach (FireGun gun in fg)
+                {
+                    gun.allowFire = true;
+                }
             }
-        }
-        else
-        {
-            timerCount -= Time.deltaTime;
-            TextElement.text = ((uint)timerCount).ToString();
+            else
+            {
+                timerCount -= Time.deltaTime;
+                TextElement.text = ((uint)timerCount).ToString();
+            }
         }
     }
 }

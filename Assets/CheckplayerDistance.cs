@@ -14,6 +14,7 @@ public class CheckplayerDistance : MonoBehaviour
             start = player.transform.position;
         }
     }
+
     public void Update()
     {
         if (player != null)

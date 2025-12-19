@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FireGun : MonoBehaviour
 {
-    private int _ammo = 10;
+    private int _ammo = 100;
     public GameObject PrefabBullet;
     public GameObject BulletSpawnPoint;
     public bool allowFire = false;

@@ -1,14 +1,13 @@
 using UnityEngine;
 
-public class hitChecker : MonoBehaviour
+public class HitChecker : MonoBehaviour
 {
-    public GameObject target;
-
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.tag == "target")
+        if (collision.transform.CompareTag("target"))
         {
             Debug.Log("Collision detected.");
+            GameObject target = collision.transform.gameObject;
             target.SetActive(false);
         }
     }

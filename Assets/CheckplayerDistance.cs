@@ -6,6 +6,7 @@ public class CheckplayerDistance : MonoBehaviour
     public Vector3 start;
     public float minDistanceMoved;
     public EnableDisable ed;
+    public bool isDialogueCanvas = false;
 
     public void Start()
     {
@@ -20,9 +21,13 @@ public class CheckplayerDistance : MonoBehaviour
         if (player != null)
         {
             float distance = (start - player.transform.position).magnitude;
+
             if (distance > minDistanceMoved)
             {
-                ed.Disable();
+                if (isDialogueCanvas)
+                    ed.Enable();
+                else
+                    ed.Disable();
             }
         }
     }

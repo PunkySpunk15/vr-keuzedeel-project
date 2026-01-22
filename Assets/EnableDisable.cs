@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnableDisable : MonoBehaviour
 {
     public GameObject objectToToggle;
+    public DialogueHandler dialogueHandler = null;
 
     public void Toggle()
     {
@@ -13,11 +12,17 @@ public class EnableDisable : MonoBehaviour
 
     public void Enable()
     {
+        if (dialogueHandler != null)
+            dialogueHandler.StartDialogue();
+
         objectToToggle.SetActive(true);
     }
 
     public void Disable()
     {
+        if (dialogueHandler != null)
+            dialogueHandler.ResetIndex();
+
         objectToToggle.SetActive(false);
     }
 }

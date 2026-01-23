@@ -33,14 +33,21 @@ public class DialogueHandler : MonoBehaviour
         new("I'll make y' hallow, cowboy.", true)
     };
 
+    //UI elements
+    public Canvas canvas;
     public CharacterDialogue character;
     public TextMeshProUGUI textElement;
     public Button button;
     public TextMeshProUGUI buttonTextElement;
-    public Canvas canvas;
+
+    //Objects
     public GameObject characterObject;
     public GameObject player;
+    public GameObject spawnPoint;
+
+    //Misc
     public EnableDisable ed;
+    public Duel duel;
     private int _index = 0;
 
     public void StartDialogue()
@@ -63,16 +70,19 @@ public class DialogueHandler : MonoBehaviour
             CharacterDialogue.Outlaw => _outlawDialogue
         };
 
-        if (dialogue[_index].StartsDuel)
-        {
-            button.transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
-            button.transform.GetComponent<Image>().color = new Color(0, 239, 255, 100); // BLUE
-            buttonTextElement.text = "Take up the offer >>";
+        _index++;
 
+        if (_index + 1 > dialogue.Count)
+        {
+            duel.StartDuel();
+            ed.Disable();
+            ResetIndex();
             return;
         }
 
-        if (buttonTextElement.text == "Take up the offer >>")
+        textElement.text = dialogue[_index].Text;
+
+        if (buttonTextElement.text is "Take up the offer >>" or "Face the outlaw ..")
         {
             //Send player to duel location
             CharacterController cc = player.GetComponent<CharacterController>();
@@ -81,58 +91,48 @@ public class DialogueHandler : MonoBehaviour
             {
                 case CharacterDialogue.Informant:
                 case CharacterDialogue.Guide:
-                    characterObject.transform.position = new Vector3(-10.76f, characterObject.transform.position.y, -11.97f);
-                    characterObject.transform.rotation = new Quaternion(characterObject.transform.rotation.x, 180f, characterObject.transform.rotation.z, characterObject.transform.rotation.w);
-
-                    canvas.transform.position = new Vector3(-12.27f, canvas.transform.position.y, -11.66f);
-                    canvas.transform.rotation = new Quaternion(canvas.transform.rotation.x, 180f, canvas.transform.rotation.z, canvas.transform.rotation.w);
-
-                    if (cc != null)
-                        cc.enabled = false;
-
-                    player.transform.position = new Vector3(-10.76f, player.transform.position.y, 1.74f);
-
-                    if (cc != null)
-                        cc.enabled = true;
+                    characterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x, characterObject.transform.position.y, spawnPoint.transform.position.z - 5f), spawnPoint.transform.rotation);
+                    canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 1.5f, canvas.transform.position.y, spawnPoint.transform.position.z - 4f), spawnPoint.transform.rotation);
                     break;
                 case CharacterDialogue.Outlaw:
-                    characterObject.transform.position = new Vector3(6.95f, characterObject.transform.position.y, 3.54f);
-                    canvas.transform.position = new Vector3(7.41f, canvas.transform.position.y, 5.25f);
-
-                    if (cc != null)
-                        cc.enabled = false;
-
-                    player.transform.position = new Vector3(-13.3f, player.transform.position.y, -7.5f);
-                    player.transform.rotation = new Quaternion(player.transform.rotation.x, 90f, player.transform.rotation.z, player.transform.rotation.w);
-
-                    if (cc != null)
-                        cc.enabled = true;
+                    characterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 5f, characterObject.transform.position.y, spawnPoint.transform.position.z), spawnPoint.transform.rotation);
+                    canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 5f, canvas.transform.position.y, spawnPoint.transform.position.z + 1.5f), spawnPoint.transform.rotation);
                     break;
             }
 
-            return;
+            if (cc != null)
+                cc.enabled = false;
+
+            player.transform.SetPositionAndRotation(spawnPoint.transform.position, spawnPoint.transform.rotation);
+
+            if (cc != null)
+                cc.enabled = true;
+
+            if (character == CharacterDialogue.Outlaw)
+            {
+                ed.Disable();
+                ResetIndex();
+                return;
+            }
+
+            buttonTextElement.text = "Start the duel >>";
+            button.transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100f);
+            button.transform.GetComponent<Image>().color = new Color(136, 0, 255, 100); // PURPLE
         }
 
-        _index++;
-
-        textElement.text = dialogue[_index].Text;
-        buttonTextElement.text = "Start the duel >>";
-        button.transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100f);
-        button.transform.GetComponent<Image>().color = new Color(136, 0, 255, 100); // PURPLE
-
-        if (_index >= dialogue.Count)
+        if (dialogue[_index].StartsDuel)
         {
-            ed.Disable();
-            return;
+            button.transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
+            button.transform.GetComponent<Image>().color = character == CharacterDialogue.Outlaw
+                ? new Color(136, 0, 255, 100) // PURPLE
+                : new Color(0, 239, 255, 100); // BLUE
+            buttonTextElement.text = character == CharacterDialogue.Outlaw
+                ? "Face the outlaw .."
+                : "Take up the offer >>";
         }
     }
 
     public void ResetIndex() => _index = 0;
-
-    void Start()
-    {
-        //TEST OUT CHANGING LOCATION HERE!!!
-    }
 
     class Dialogue
     {

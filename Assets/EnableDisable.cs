@@ -7,7 +7,10 @@ public class EnableDisable : MonoBehaviour
 
     public void Toggle()
     {
-        objectToToggle.SetActive(!objectToToggle.activeSelf);
+        if (!objectToToggle.activeSelf)
+            Enable();
+        else
+            Disable();
     }
 
     public void Enable()

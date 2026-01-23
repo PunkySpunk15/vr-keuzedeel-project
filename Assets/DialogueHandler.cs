@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,7 +53,20 @@ public class DialogueHandler : MonoBehaviour
 
     public void NextDialogue()
     {
-        if (_index < 0)
+        int dialogueCount = (character switch
+        {
+            CharacterDialogue.Guide => _guideDialogue,
+            CharacterDialogue.Informant => _informantDialogue,
+            CharacterDialogue.Outlaw => _outlawDialogue
+        }).Count();
+        string[] dialogue = character switch
+        {
+            CharacterDialogue.Guide => _guideDialogue,
+            CharacterDialogue.Informant => _informantDialogue,
+            CharacterDialogue.Outlaw => _outlawDialogue
+        };
+
+        if (_index + 1 == dialogueCount)
         {
             button.transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
             button.transform.GetComponent<Image>().color = new Color(0, 239, 255, 100); // BLUE
@@ -79,13 +93,7 @@ public class DialogueHandler : MonoBehaviour
 
         _index++;
 
-        textElement.text = character switch
-        {
-            CharacterDialogue.Guide => _guideDialogue[_index],
-            CharacterDialogue.Informant => _informantDialogue[_index],
-            CharacterDialogue.Outlaw => _outlawDialogue[_index],
-            _ => ""
-        };
+        textElement.text = dialogue[_index];
     }
 
     public void ResetIndex() => _index = 0;

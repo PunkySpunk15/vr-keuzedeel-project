@@ -2266,13 +2266,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 137307453}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 1.7, z: 0}
   m_LocalScale: {x: 0.6, y: 0.1, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 459646649}
-  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &137307455
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4518,9 +4518,9 @@ MonoBehaviour:
   m_fontSize: 23
   m_fontSizeBase: 23
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 23
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -6498,9 +6498,9 @@ MonoBehaviour:
   m_fontSize: 23
   m_fontSizeBase: 23
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 23
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -7108,6 +7108,81 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4562703954367297509, guid: 420e8a730952fd644a88c84019a56931, type: 3}
+--- !u!1 &609287503
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 609287504}
+  - component: {fileID: 609287506}
+  - component: {fileID: 609287505}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &609287504
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609287503}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.10873013, y: 0.10873013, z: 0.10873013}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 919579846}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 143.7, y: -6.7}
+  m_SizeDelta: {x: 1154.3721, y: 2054}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &609287505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609287503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: f741ed6e94ae619469972bbdd083ee90, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &609287506
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609287503}
+  m_CullTransparentMesh: 1
 --- !u!64 &615367471
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -10050,6 +10125,7 @@ RectTransform:
   - {fileID: 494396003}
   - {fileID: 1250021993}
   - {fileID: 161778715}
+  - {fileID: 609287504}
   m_Father: {fileID: 1294806084}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -13603,7 +13679,7 @@ GameObject:
   - component: {fileID: 1202730063}
   - component: {fileID: 1202730062}
   m_Layer: 0
-  m_Name: target
+  m_Name: informant
   m_TagString: target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13637,9 +13713,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1731298974}
-  start: {x: 0, y: 0, z: 0}
-  minDistanceMoved: 5
+  start: {x: -3.95, y: 1.45, z: -2.65}
+  minDistanceMoved: 2
   ed: {fileID: 1381940512}
+  isDialogueCanvas: 1
 --- !u!65 &1202730063
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15021,7 +15098,7 @@ GameObject:
   - component: {fileID: 1294806083}
   - component: {fileID: 1294806082}
   - component: {fileID: 1294806081}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tutorial sign
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15845,7 +15922,7 @@ GameObject:
   - component: {fileID: 1370636620}
   - component: {fileID: 1370636624}
   m_Layer: 0
-  m_Name: target
+  m_Name: guide
   m_TagString: target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15950,9 +16027,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1731298974}
-  start: {x: 0, y: 0, z: 0}
+  start: {x: -6.28, y: 1.013, z: -5.53}
   minDistanceMoved: 2
   ed: {fileID: 522424692}
+  isDialogueCanvas: 1
 --- !u!1 &1381940510
 GameObject:
   m_ObjectHideFlags: 0
@@ -16107,8 +16185,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1731298974}
   start: {x: 0, y: 0, z: 0}
-  minDistanceMoved: 5
+  minDistanceMoved: 2
   ed: {fileID: 1381940512}
+  isDialogueCanvas: 1
 --- !u!64 &1388993176
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -16557,6 +16636,7 @@ MonoBehaviour:
   start: {x: 0, y: 0, z: 0}
   minDistanceMoved: 5
   ed: {fileID: 1393633639}
+  isDialogueCanvas: 0
 --- !u!1 &1402988460
 GameObject:
   m_ObjectHideFlags: 0
@@ -21063,6 +21143,10 @@ PrefabInstance:
       propertyPath: m_GravityApplicationMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5022186744559676859, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
+      propertyPath: m_EnableMoveWhileSelecting
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5481383991568480619, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -21085,7 +21169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7002313976673130572, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_EnableMoveWhileSelecting
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7313654230448209575, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_Name

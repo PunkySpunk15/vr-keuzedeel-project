@@ -25,7 +25,10 @@ public class CheckplayerDistance : MonoBehaviour
             if (distance > minDistanceMoved)
             {
                 if (isDialogueCanvas)
-                    ed.Enable();
+                    if (distance < minDistanceMoved)
+                        ed.Disable();
+                    else
+                        ed.Enable();
                 else
                     ed.Disable();
             }

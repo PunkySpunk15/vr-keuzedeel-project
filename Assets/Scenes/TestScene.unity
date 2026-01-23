@@ -5922,7 +5922,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &522424687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7906,6 +7906,9 @@ MonoBehaviour:
   textElement: {fileID: 548679948}
   button: {fileID: 703412066}
   buttonTextElement: {fileID: 1588005705}
+  canvas: {fileID: 522424690}
+  characterObject: {fileID: 1370636619}
+  player: {fileID: 1731298974}
   ed: {fileID: 522424692}
 --- !u!1 &705154312
 GameObject:
@@ -17375,6 +17378,9 @@ MonoBehaviour:
   textElement: {fileID: 412135930}
   button: {fileID: 1459670443}
   buttonTextElement: {fileID: 1929179363}
+  canvas: {fileID: 0}
+  characterObject: {fileID: 0}
+  player: {fileID: 0}
   ed: {fileID: 1381940512}
 --- !u!114 &1459670443
 MonoBehaviour:

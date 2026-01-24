@@ -15,7 +15,9 @@ public class DialogueHandler : MonoBehaviour
     private readonly List<Dialogue> _guideDialogue = new() {
         new("Howdy, wanna practice yer aim?", false),
         new("I'll go easy on ya, but I will shoot after yer headstart of 2 seconds is up.", true),
-        new("Alright, remember to only shoot when the timer hits zero! No playin' dirty 'round these parts.", false)
+        new("Alright, remember to only shoot when the timer hits zero! No playin' dirty 'round these parts.", false),
+        new("Ya got me, good work!", false),
+        new("Head over to the saloon, y' earned a gut warmer.", false)
     };
 
     private readonly List<Dialogue> _informantDialogue = new() {
@@ -72,11 +74,18 @@ public class DialogueHandler : MonoBehaviour
 
         _index++;
 
-        if (_index + 1 > dialogue.Count)
+        if (buttonTextElement.text == "Start the duel >>")
         {
             duel.StartDuel();
+            Destroy(characterObject.GetComponent<CheckplayerDistance>());
             ed.Disable();
-            ResetIndex();
+
+            if (character == CharacterDialogue.Outlaw)
+            {
+                //No dialogue after duel with outlaw
+                ResetIndex();
+            }
+
             return;
         }
 
@@ -110,6 +119,7 @@ public class DialogueHandler : MonoBehaviour
 
             if (character == CharacterDialogue.Outlaw)
             {
+                Debug.Log("HAIIII");
                 ed.Disable();
                 ResetIndex();
                 return;
@@ -132,7 +142,46 @@ public class DialogueHandler : MonoBehaviour
         }
     }
 
+    public void StartAfterDuelDialogue()
+    {
+        if (character == CharacterDialogue.Outlaw)
+            return; //Shouldnt get here
+
+        ed.Enable();
+        List<Dialogue> dialogue = character switch
+        {
+            CharacterDialogue.Guide => _guideDialogue,
+            CharacterDialogue.Informant => _informantDialogue,
+            CharacterDialogue.Outlaw => _outlawDialogue
+        };
+
+        _index++;
+
+        textElement.text = dialogue[_index].Text;
+
+        buttonTextElement.text = "Next >>";
+        button.transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 60f);
+        button.transform.GetComponent<Image>().color = new Color(136, 0, 255, 100); // GREEN
+    }
+
     public void ResetIndex() => _index = 0;
+
+    void Start()
+    {
+        CharacterController cc = player.GetComponent<CharacterController>();
+
+        characterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 5f, characterObject.transform.position.y, spawnPoint.transform.position.z), spawnPoint.transform.rotation);
+        canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 5f, canvas.transform.position.y, spawnPoint.transform.position.z + 1.5f), spawnPoint.transform.rotation);
+
+
+        if (cc != null)
+            cc.enabled = false;
+
+        player.transform.SetPositionAndRotation(spawnPoint.transform.position, spawnPoint.transform.rotation);
+
+        if (cc != null)
+            cc.enabled = true;
+    }
 
     class Dialogue
     {

@@ -14,9 +14,9 @@ public class EnableDisable : MonoBehaviour
             Disable();
     }
 
-    public void Enable()
+    public void Enable(bool keepCurrentIndex = false)
     {
-        if (dialogueHandler != null)
+        if (dialogueHandler != null && !keepCurrentIndex)
             dialogueHandler.StartDialogue();
 
         if (character != null && character == DialogueHandler.Character.Outlaw)
@@ -27,9 +27,9 @@ public class EnableDisable : MonoBehaviour
         objectToToggle.SetActive(true);
     }
 
-    public void Disable()
+    public void Disable(bool keepCurrentIndex = false)
     {
-        if (dialogueHandler != null)
+        if (dialogueHandler != null && !keepCurrentIndex)
             dialogueHandler.ResetIndex();
 
         objectToToggle.SetActive(false);

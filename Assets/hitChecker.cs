@@ -8,8 +8,6 @@ public class HitChecker : MonoBehaviour
     {
         if (collision.transform.CompareTag("target"))
         {
-            Debug.Log("Collision detected.");
-
             GameObject target = collision.transform.gameObject;
             DialogueHandler dialogueHandler = target.GetComponent<DialogueHandler>();
             _timesHit++;

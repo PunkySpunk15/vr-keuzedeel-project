@@ -24,6 +24,9 @@ public class Counter : MonoBehaviour
 
         if (duel.active)
         {
+            if (!_retryDuel)
+                timerCount -= Time.deltaTime;
+
             if (timerCount <= 0)
             {
                 foreach (FireGun gun in fg)
@@ -33,7 +36,6 @@ public class Counter : MonoBehaviour
             }
             else
             {
-                timerCount -= Time.deltaTime;
                 timerTextElement.text = ((uint)timerCount).ToString();
             }
 
@@ -43,7 +45,6 @@ public class Counter : MonoBehaviour
                 //Play gun shoot sound
                 _retryDuel = true;
 
-                //FAIL!
                 duel.active = false;
                 textElement.text = "Let's try again.";
 
@@ -54,7 +55,7 @@ public class Counter : MonoBehaviour
             }
         }
 
-        if (_retryDuel && timerCount <= -4)
+        if (_retryDuel)
         {
             timerCount = 5;
             duel.StartDuel();

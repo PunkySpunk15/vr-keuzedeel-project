@@ -76,11 +76,18 @@ public class DialogueHandler : MonoBehaviour
 
         _index++;
 
+        if (_index + 1 > dialogue.Count)
+        {
+            ed.Disable();
+            characterObject.SetActive(false);
+            return;
+        }
+
         if (buttonTextElement.text is "Start the duel >>")
         {
             duel.StartDuel();
             Destroy(characterObject.GetComponent<CheckplayerDistance>());
-            ed.Disable();
+            ed.Disable(true);
             duelCanvas.Enable();
 
             if (character == Character.Outlaw)
@@ -120,9 +127,7 @@ public class DialogueHandler : MonoBehaviour
 
             if (character is Character.Outlaw)
             {
-                Debug.Log("HAIIII");
                 ed.Disable();
-                ResetIndex();
                 return;
             }
 
@@ -151,6 +156,8 @@ public class DialogueHandler : MonoBehaviour
             return; //Shouldnt get here
 
         duel.active = false;
+        duelCanvas.Disable();
+
         List<Dialogue> dialogue = character switch
         {
             Character.Guide => _guideDialogue,
@@ -158,30 +165,19 @@ public class DialogueHandler : MonoBehaviour
             Character.Outlaw => _outlawDialogue
         };
 
-        if (_index + 1 > dialogue.Count)
-        {
-            ed.Disable();
-            ResetIndex();
-            return;
-        }
-
-        ed.Enable();
-
-        _index++;
+        ed.Enable(true);
 
         textElement.text = dialogue[_index].Text;
 
         buttonTextElement.text = "Next >>";
         button.transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 60f);
-        button.transform.GetComponent<Image>().color = new Color(136, 0, 255, 100); // GREEN
+        button.transform.GetComponent<Image>().color = new Color(0, 255, 154, 100); // GREEN
     }
 
     public void ResetIndex() => _index = 0;
 
     public void TriggerOutlawEntrance()
     {
-        ed.Enable();
-
         sd.RotatePlayer();
 
         //Then enable sounds and finally regular dialogue handling.

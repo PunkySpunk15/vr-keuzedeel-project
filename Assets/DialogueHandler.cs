@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DialogueHandler : MonoBehaviour
 {
-    public enum CharacterDialogue
+    public enum Character
     {
         Guide,
         Informant,
@@ -37,10 +37,11 @@ public class DialogueHandler : MonoBehaviour
 
     //UI elements
     public Canvas canvas;
-    public CharacterDialogue character;
+    public Character character;
     public TextMeshProUGUI textElement;
     public Button button;
     public TextMeshProUGUI buttonTextElement;
+    public EnableDisable duelCanvas;
 
     //Objects
     public GameObject characterObject;
@@ -50,15 +51,16 @@ public class DialogueHandler : MonoBehaviour
     //Misc
     public EnableDisable ed;
     public Duel duel;
+    public SitDown sd;
     private int _index = 0;
 
     public void StartDialogue()
     {
         textElement.text = character switch
         {
-            CharacterDialogue.Guide => _guideDialogue[_index].Text,
-            CharacterDialogue.Informant => _informantDialogue[_index].Text,
-            CharacterDialogue.Outlaw => _outlawDialogue[_index].Text,
+            Character.Guide => _guideDialogue[_index].Text,
+            Character.Informant => _informantDialogue[_index].Text,
+            Character.Outlaw => _outlawDialogue[_index].Text,
             _ => ""
         };
     }
@@ -67,20 +69,21 @@ public class DialogueHandler : MonoBehaviour
     {
         List<Dialogue> dialogue = character switch
         {
-            CharacterDialogue.Guide => _guideDialogue,
-            CharacterDialogue.Informant => _informantDialogue,
-            CharacterDialogue.Outlaw => _outlawDialogue
+            Character.Guide => _guideDialogue,
+            Character.Informant => _informantDialogue,
+            Character.Outlaw => _outlawDialogue
         };
 
         _index++;
 
-        if (buttonTextElement.text == "Start the duel >>")
+        if (buttonTextElement.text is "Start the duel >>")
         {
             duel.StartDuel();
             Destroy(characterObject.GetComponent<CheckplayerDistance>());
             ed.Disable();
+            duelCanvas.Enable();
 
-            if (character == CharacterDialogue.Outlaw)
+            if (character == Character.Outlaw)
             {
                 //No dialogue after duel with outlaw
                 ResetIndex();
@@ -89,8 +92,6 @@ public class DialogueHandler : MonoBehaviour
             return;
         }
 
-        textElement.text = dialogue[_index].Text;
-
         if (buttonTextElement.text is "Take up the offer >>" or "Face the outlaw ..")
         {
             //Send player to duel location
@@ -98,12 +99,12 @@ public class DialogueHandler : MonoBehaviour
 
             switch (character)
             {
-                case CharacterDialogue.Informant:
-                case CharacterDialogue.Guide:
+                case Character.Informant:
+                case Character.Guide:
                     characterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x, characterObject.transform.position.y, spawnPoint.transform.position.z - 5f), spawnPoint.transform.rotation);
                     canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 1.5f, canvas.transform.position.y, spawnPoint.transform.position.z - 4f), spawnPoint.transform.rotation);
                     break;
-                case CharacterDialogue.Outlaw:
+                case Character.Outlaw:
                     characterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 5f, characterObject.transform.position.y, spawnPoint.transform.position.z), spawnPoint.transform.rotation);
                     canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 5f, canvas.transform.position.y, spawnPoint.transform.position.z + 1.5f), spawnPoint.transform.rotation);
                     break;
@@ -117,7 +118,7 @@ public class DialogueHandler : MonoBehaviour
             if (cc != null)
                 cc.enabled = true;
 
-            if (character == CharacterDialogue.Outlaw)
+            if (character is Character.Outlaw)
             {
                 Debug.Log("HAIIII");
                 ed.Disable();
@@ -130,13 +131,15 @@ public class DialogueHandler : MonoBehaviour
             button.transform.GetComponent<Image>().color = new Color(136, 0, 255, 100); // PURPLE
         }
 
+        textElement.text = dialogue[_index].Text;
+
         if (dialogue[_index].StartsDuel)
         {
             button.transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
-            button.transform.GetComponent<Image>().color = character == CharacterDialogue.Outlaw
+            button.transform.GetComponent<Image>().color = character == Character.Outlaw
                 ? new Color(136, 0, 255, 100) // PURPLE
                 : new Color(0, 239, 255, 100); // BLUE
-            buttonTextElement.text = character == CharacterDialogue.Outlaw
+            buttonTextElement.text = character == Character.Outlaw
                 ? "Face the outlaw .."
                 : "Take up the offer >>";
         }
@@ -144,16 +147,25 @@ public class DialogueHandler : MonoBehaviour
 
     public void StartAfterDuelDialogue()
     {
-        if (character == CharacterDialogue.Outlaw)
+        if (character == Character.Outlaw)
             return; //Shouldnt get here
 
-        ed.Enable();
+        duel.active = false;
         List<Dialogue> dialogue = character switch
         {
-            CharacterDialogue.Guide => _guideDialogue,
-            CharacterDialogue.Informant => _informantDialogue,
-            CharacterDialogue.Outlaw => _outlawDialogue
+            Character.Guide => _guideDialogue,
+            Character.Informant => _informantDialogue,
+            Character.Outlaw => _outlawDialogue
         };
+
+        if (_index + 1 > dialogue.Count)
+        {
+            ed.Disable();
+            ResetIndex();
+            return;
+        }
+
+        ed.Enable();
 
         _index++;
 
@@ -166,21 +178,18 @@ public class DialogueHandler : MonoBehaviour
 
     public void ResetIndex() => _index = 0;
 
+    public void TriggerOutlawEntrance()
+    {
+        ed.Enable();
+
+        sd.RotatePlayer();
+
+        //Then enable sounds and finally regular dialogue handling.
+    }
+
     void Start()
     {
-        CharacterController cc = player.GetComponent<CharacterController>();
 
-        characterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 5f, characterObject.transform.position.y, spawnPoint.transform.position.z), spawnPoint.transform.rotation);
-        canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 5f, canvas.transform.position.y, spawnPoint.transform.position.z + 1.5f), spawnPoint.transform.rotation);
-
-
-        if (cc != null)
-            cc.enabled = false;
-
-        player.transform.SetPositionAndRotation(spawnPoint.transform.position, spawnPoint.transform.rotation);
-
-        if (cc != null)
-            cc.enabled = true;
     }
 
     class Dialogue

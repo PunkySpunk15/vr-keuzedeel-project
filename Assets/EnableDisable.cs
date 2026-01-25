@@ -4,6 +4,7 @@ public class EnableDisable : MonoBehaviour
 {
     public GameObject objectToToggle;
     public DialogueHandler dialogueHandler = null;
+    public DialogueHandler.Character? character = null;
 
     public void Toggle()
     {
@@ -17,6 +18,11 @@ public class EnableDisable : MonoBehaviour
     {
         if (dialogueHandler != null)
             dialogueHandler.StartDialogue();
+
+        if (character != null && character == DialogueHandler.Character.Outlaw)
+        {
+            dialogueHandler.TriggerOutlawEntrance();
+        }
 
         objectToToggle.SetActive(true);
     }

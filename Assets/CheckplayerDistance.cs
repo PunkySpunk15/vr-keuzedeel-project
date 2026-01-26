@@ -3,35 +3,27 @@ using UnityEngine;
 public class CheckplayerDistance : MonoBehaviour
 {
     public GameObject player;
-    public Vector3 start;
+    public GameObject start;
     public float minDistanceMoved;
     public EnableDisable ed;
-    public bool isDialogueCanvas = false;
-
-    public void Start()
-    {
-        if (player != null)
-        {
-            start = player.transform.position;
-        }
-    }
+    public bool isCanvas = false;
 
     public void Update()
     {
         if (player != null)
         {
-            float distance = (start - player.transform.position).magnitude;
+            float distance = (start.transform.position - player.transform.position).magnitude;
 
-            if (distance > minDistanceMoved)
+            if (distance < minDistanceMoved)
             {
-                if (isDialogueCanvas)
-                    if (distance < minDistanceMoved)
-                        ed.Disable();
-                    else
-                        ed.Enable();
+                if (isCanvas)
+                    ed.Enable();
                 else
                     ed.Disable();
             }
+
+            if (distance > minDistanceMoved && isCanvas)
+                ed.Disable();
         }
     }
 }

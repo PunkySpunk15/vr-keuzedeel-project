@@ -40,7 +40,7 @@ public class Counter : MonoBehaviour
             }
 
             if (timerCount <= -2
-                && character is not DialogueHandler.Character.Outlaw)
+                && character is DialogueHandler.Character.Guide)
             {
                 //Play gun shoot sound
                 _retryDuel = true;

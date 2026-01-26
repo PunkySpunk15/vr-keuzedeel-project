@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,8 +55,14 @@ public class DialogueHandler : MonoBehaviour
     public SitDown sd;
     private int _index = 0;
 
+    //Colors
+    private Color _blue = new(0, 239, 255, 100);
+    private Color _green = new(0, 255, 154, 100);
+    private Color _purple = new(136, 0, 255, 100);
+
     public void StartDialogue()
     {
+        ResetIndex();
         textElement.text = character switch
         {
             Character.Guide => _guideDialogue[_index].Text,
@@ -63,6 +70,12 @@ public class DialogueHandler : MonoBehaviour
             Character.Outlaw => _outlawDialogue[_index].Text,
             _ => ""
         };
+
+        buttonTextElement.text = "Next >>";
+        button.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 60f);
+
+        Destroy(button.GetComponent<Image>());
+        button.AddComponent<Image>().color = _green;
     }
 
     public void NextDialogue()
@@ -132,18 +145,18 @@ public class DialogueHandler : MonoBehaviour
             }
 
             buttonTextElement.text = "Start the duel >>";
-            button.transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100f);
-            button.transform.GetComponent<Image>().color = new Color(136, 0, 255, 100); // PURPLE
+            button.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100f);
+            button.GetComponent<Image>().color = _purple;
         }
 
         textElement.text = dialogue[_index].Text;
 
         if (dialogue[_index].StartsDuel)
         {
-            button.transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
-            button.transform.GetComponent<Image>().color = character == Character.Outlaw
-                ? new Color(136, 0, 255, 100) // PURPLE
-                : new Color(0, 239, 255, 100); // BLUE
+            button.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
+            button.GetComponent<Image>().color = character == Character.Outlaw
+                ? _purple
+                : _blue;
             buttonTextElement.text = character == Character.Outlaw
                 ? "Face the outlaw .."
                 : "Take up the offer >>";
@@ -167,11 +180,13 @@ public class DialogueHandler : MonoBehaviour
 
         ed.Enable(true);
 
+        characterObject.AddComponent<CheckplayerDistance>().minDistanceMoved = 2;
+
         textElement.text = dialogue[_index].Text;
 
         buttonTextElement.text = "Next >>";
         button.transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 60f);
-        button.transform.GetComponent<Image>().color = new Color(0, 255, 154, 100); // GREEN
+        button.transform.GetComponent<Image>().color = _green;
     }
 
     public void ResetIndex() => _index = 0;
@@ -181,11 +196,6 @@ public class DialogueHandler : MonoBehaviour
         sd.RotatePlayer();
 
         //Then enable sounds and finally regular dialogue handling.
-    }
-
-    void Start()
-    {
-
     }
 
     class Dialogue

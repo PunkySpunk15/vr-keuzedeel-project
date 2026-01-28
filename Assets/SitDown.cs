@@ -5,6 +5,7 @@ public class SitDown : MonoBehaviour
     public GameObject player;
     public GameObject sitPoint;
     public GameObject grabToMove;
+    public GameObject chair;
 
     public void SitPlayerDown()
     {
@@ -18,6 +19,7 @@ public class SitDown : MonoBehaviour
         if (cc != null)
             cc.enabled = true;
 
+        Destroy(chair.GetComponent<CheckplayerDistance>());
         grabToMove.SetActive(false);
     }
 

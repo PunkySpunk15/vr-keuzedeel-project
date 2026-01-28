@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -72,10 +71,6 @@ public class DialogueHandler : MonoBehaviour
         };
 
         buttonTextElement.text = "Next >>";
-        button.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 60f);
-
-        Destroy(button.GetComponent<Image>());
-        button.AddComponent<Image>().color = _green;
     }
 
     public void NextDialogue()
@@ -99,7 +94,6 @@ public class DialogueHandler : MonoBehaviour
         if (buttonTextElement.text is "Start the duel >>")
         {
             duel.StartDuel();
-            Destroy(characterObject.GetComponent<CheckplayerDistance>());
             ed.Disable(true);
             duelCanvas.Enable();
 
@@ -116,6 +110,7 @@ public class DialogueHandler : MonoBehaviour
         {
             //Send player to duel location
             CharacterController cc = player.GetComponent<CharacterController>();
+            Destroy(characterObject.GetComponent<CheckplayerDistance>());
 
             switch (character)
             {

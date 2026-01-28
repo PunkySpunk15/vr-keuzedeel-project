@@ -14,7 +14,7 @@ public class DialogueHandler : MonoBehaviour
 
     private readonly List<Dialogue> _guideDialogue = new() {
         new("Howdy, wanna practice yer aim?", false),
-        new("I'll go easy on ya, but I will shoot after yer headstart of 2 seconds is up.", true),
+        new("I'll go easy on ya, but I will shoot after yer headstart of 3 seconds is up.", true),
         new("Alright, remember to only shoot when the timer hits zero! No playin' dirty 'round these parts.", false),
         new("Ya got me, good work!", false),
         new("Head over to the saloon, y' earned a gut warmer.", false)
@@ -26,7 +26,9 @@ public class DialogueHandler : MonoBehaviour
         new("Take a look, yer gonna need to watch out fer him.", false),
         new("Folks say he's comin' to town to stir the pot once again..", false),
         new("Hey, listen..", false),
-        new("I'd like to see what yer made of, how's 'bout we duel outside fer a minute?", true)
+        new("I'd like to see what yer made of, how's 'bout we duel outside fer a minute?", true),
+        new("Good ol' fashioned duel, pull the trigger when it's time.", false),
+        new("Woah, guess y' got what 't takes..", false)
     };
 
     private readonly List<Dialogue> _outlawDialogue = new() {
@@ -47,6 +49,7 @@ public class DialogueHandler : MonoBehaviour
     public GameObject characterObject;
     public GameObject player;
     public GameObject spawnPoint;
+    public GameObject grabToMove;
 
     //Misc
     public EnableDisable ed;
@@ -84,7 +87,7 @@ public class DialogueHandler : MonoBehaviour
 
         _index++;
 
-        if (_index + 1 > dialogue.Count)
+        if (_index + 1 > dialogue.Count && character is not Character.Outlaw)
         {
             ed.Disable();
             characterObject.SetActive(false);
@@ -117,7 +120,7 @@ public class DialogueHandler : MonoBehaviour
                 case Character.Informant:
                 case Character.Guide:
                     characterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x, characterObject.transform.position.y, spawnPoint.transform.position.z - 5f), spawnPoint.transform.rotation);
-                    canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 1.5f, canvas.transform.position.y, spawnPoint.transform.position.z - 4f), spawnPoint.transform.rotation);
+                    canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 1.5f, canvas.transform.position.y - 0.5f, spawnPoint.transform.position.z - 3f), spawnPoint.transform.rotation);
                     break;
                 case Character.Outlaw:
                     characterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 5f, characterObject.transform.position.y, spawnPoint.transform.position.z), spawnPoint.transform.rotation);
@@ -138,6 +141,8 @@ public class DialogueHandler : MonoBehaviour
                 ed.Disable();
                 return;
             }
+
+            grabToMove.SetActive(false);
 
             buttonTextElement.text = "Start the duel >>";
             button.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100f);
@@ -160,7 +165,7 @@ public class DialogueHandler : MonoBehaviour
 
     public void StartAfterDuelDialogue()
     {
-        if (character == Character.Outlaw)
+        if (character is Character.Outlaw)
             return; //Shouldnt get here
 
         duel.active = false;
@@ -174,6 +179,7 @@ public class DialogueHandler : MonoBehaviour
         };
 
         ed.Enable(true);
+        grabToMove.SetActive(true);
 
         characterObject.AddComponent<CheckplayerDistance>().minDistanceMoved = 2;
 

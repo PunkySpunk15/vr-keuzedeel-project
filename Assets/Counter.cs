@@ -9,19 +9,12 @@ public class Counter : MonoBehaviour
     public TextMeshProUGUI textElement;
     public List<FireGun> fg = new();
     public DialogueHandler.Character character;
-    public List<Duel> duels = new();
+    public Duel duel;
 
     private bool _retryDuel = false;
 
     private void Update()
     {
-        Duel duel = character switch
-        {
-            DialogueHandler.Character.Guide => duels[0],
-            DialogueHandler.Character.Informant => duels[1],
-            _ => duels[0]
-        };
-
         if (duel.active)
         {
             if (!_retryDuel)
@@ -39,7 +32,7 @@ public class Counter : MonoBehaviour
                 timerTextElement.text = ((uint)timerCount).ToString();
             }
 
-            if (timerCount <= -2
+            if (timerCount <= -3
                 && character is DialogueHandler.Character.Guide)
             {
                 //Play gun shoot sound
@@ -53,11 +46,40 @@ public class Counter : MonoBehaviour
                     gun.allowFire = false;
                 }
             }
+
+            if (timerCount <= -2
+                && character is DialogueHandler.Character.Informant)
+            {
+                //Play gun shoot sound
+                _retryDuel = true;
+
+                duel.active = false;
+                textElement.text = "Let's try again.";
+
+                foreach (FireGun gun in fg)
+                {
+                    gun.allowFire = false;
+                }
+            }
+
+            if (timerCount <= -1
+                && character is DialogueHandler.Character.Outlaw)
+            {
+                //Play gun shoot sound
+                duel.active = false;
+
+                //Play again code here..
+
+                foreach (FireGun gun in fg)
+                {
+                    gun.allowFire = false;
+                }
+            }
         }
 
         if (_retryDuel)
         {
-            timerCount = 5;
+            timerCount = 6;
             duel.StartDuel();
             _retryDuel = false;
         }

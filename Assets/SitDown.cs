@@ -13,7 +13,7 @@ public class SitDown : MonoBehaviour
         if (cc != null)
             cc.enabled = false;
 
-        player.transform.position = new Vector3(sitPoint.transform.position.x, player.transform.position.y, sitPoint.transform.position.z);
+        player.transform.position = new Vector3(sitPoint.transform.position.x, sitPoint.transform.position.y, sitPoint.transform.position.z);
 
         if (cc != null)
             cc.enabled = true;

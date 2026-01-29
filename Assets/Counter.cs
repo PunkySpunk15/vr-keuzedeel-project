@@ -13,6 +13,7 @@ public class Counter : MonoBehaviour
     public Duel duel;
 
     private bool _retryDuel = false;
+    private int _timesFailed = 0;
 
     private void Update()
     {
@@ -55,6 +56,8 @@ public class Counter : MonoBehaviour
                 {
                     gun.allowFire = false;
                 }
+
+                _timesFailed++;
             }
 
             if (timerCount <= -1
@@ -73,6 +76,9 @@ public class Counter : MonoBehaviour
                     gun.allowFire = false;
                 }
             }
+
+            if (_timesFailed > 2)
+                button.Enable();
         }
 
         if (_retryDuel)

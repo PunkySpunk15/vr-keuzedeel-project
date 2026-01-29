@@ -12,6 +12,5 @@ public class Duel : MonoBehaviour
     public void StopDuel()
     {
         active = false;
-        //ResetCharacters();
     }
 }

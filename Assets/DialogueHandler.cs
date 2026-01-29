@@ -100,12 +100,6 @@ public class DialogueHandler : MonoBehaviour
             ed.Disable(true);
             duelCanvas.Enable();
 
-            if (character == Character.Outlaw)
-            {
-                //No dialogue after duel with outlaw
-                ResetIndex();
-            }
-
             return;
         }
 
@@ -123,8 +117,8 @@ public class DialogueHandler : MonoBehaviour
                     canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 1.5f, canvas.transform.position.y - 0.5f, spawnPoint.transform.position.z - 3f), spawnPoint.transform.rotation);
                     break;
                 case Character.Outlaw:
-                    characterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 5f, characterObject.transform.position.y, spawnPoint.transform.position.z), spawnPoint.transform.rotation);
-                    canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 5f, canvas.transform.position.y, spawnPoint.transform.position.z + 1.5f), spawnPoint.transform.rotation);
+                    characterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 4f, characterObject.transform.position.y, spawnPoint.transform.position.z), spawnPoint.transform.rotation);
+                    canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 3f, canvas.transform.position.y - 0.5f, spawnPoint.transform.position.z + 1.5f), spawnPoint.transform.rotation);
                     break;
             }
 
@@ -136,13 +130,16 @@ public class DialogueHandler : MonoBehaviour
             if (cc != null)
                 cc.enabled = true;
 
+            grabToMove.SetActive(false);
+
             if (character is Character.Outlaw)
             {
-                ed.Disable();
+                duel.StartDuel();
+                canvas.GetComponent<EnableDisable>().Disable();
+                duelCanvas.Enable();
+
                 return;
             }
-
-            grabToMove.SetActive(false);
 
             buttonTextElement.text = "Start the duel >>";
             button.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100f);
@@ -165,10 +162,14 @@ public class DialogueHandler : MonoBehaviour
 
     public void StartAfterDuelDialogue()
     {
-        if (character is Character.Outlaw)
-            return; //Shouldnt get here
-
         duel.active = false;
+
+        if (character is Character.Outlaw)
+        {
+            HandleWinOutlawDuel();
+            return;
+        }
+
         duelCanvas.Disable();
 
         List<Dialogue> dialogue = character switch
@@ -188,6 +189,18 @@ public class DialogueHandler : MonoBehaviour
         buttonTextElement.text = "Next >>";
         button.transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 60f);
         button.transform.GetComponent<Image>().color = _green;
+    }
+
+    private void HandleWinOutlawDuel()
+    {
+        TextMeshProUGUI text = duelCanvas.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI timerText = duelCanvas.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
+
+        text.text = "You won!!";
+        timerText.text = string.Empty;
+
+        EnableDisable button = duelCanvas.transform.GetChild(2).gameObject.GetComponent<EnableDisable>();
+        button.Enable();
     }
 
     public void ResetIndex() => _index = 0;

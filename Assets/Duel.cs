@@ -8,4 +8,10 @@ public class Duel : MonoBehaviour
     {
         active = true;
     }
+
+    public void StopDuel()
+    {
+        active = false;
+        //ResetCharacters();
+    }
 }

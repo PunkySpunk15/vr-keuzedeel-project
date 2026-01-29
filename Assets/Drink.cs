@@ -8,10 +8,9 @@ public class Drink : MonoBehaviour
     void Update()
     {
         if (IsUpsideDown(whiskeyObject.transform))
-        {
             particleSystem.Play();
-        }
     }
+
     bool IsUpsideDown(Transform objectTransfrom)
     {
         float angle = Vector3.Angle(objectTransfrom.up, Vector3.down);

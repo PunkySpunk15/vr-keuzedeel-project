@@ -7,6 +7,7 @@ public class Counter : MonoBehaviour
     public float timerCount = 6;
     public TextMeshProUGUI timerTextElement;
     public TextMeshProUGUI textElement;
+    public EnableDisable button;
     public List<FireGun> fg = new();
     public DialogueHandler.Character character;
     public Duel duel;
@@ -32,23 +33,17 @@ public class Counter : MonoBehaviour
                 timerTextElement.text = ((uint)timerCount).ToString();
             }
 
-            if (timerCount <= -3
-                && character is DialogueHandler.Character.Guide)
-            {
-                //Play gun shoot sound
-                _retryDuel = true;
-
-                duel.active = false;
-                textElement.text = "Let's try again.";
-
-                foreach (FireGun gun in fg)
-                {
-                    gun.allowFire = false;
-                }
-            }
-
-            if (timerCount <= -2
-                && character is DialogueHandler.Character.Informant)
+            if (
+                (
+                    timerCount <= -3
+                    && character is DialogueHandler.Character.Guide
+                    )
+                ||
+                    (
+                    timerCount <= -2
+                    && character is DialogueHandler.Character.Informant
+                    )
+               )
             {
                 //Play gun shoot sound
                 _retryDuel = true;
@@ -67,8 +62,11 @@ public class Counter : MonoBehaviour
             {
                 //Play gun shoot sound
                 duel.active = false;
+                textElement.text = "You lost.";
+                textElement.GetComponent<TextMeshProUGUI>().color = timerTextElement.GetComponent<TextMeshProUGUI>().color;
 
-                //Play again code here..
+                timerTextElement.text = string.Empty;
+                button.Enable();
 
                 foreach (FireGun gun in fg)
                 {

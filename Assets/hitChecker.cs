@@ -10,7 +10,6 @@ public class HitChecker : MonoBehaviour
         if (collision.transform.CompareTag("target"))
         {
             GameObject target = collision.transform.gameObject;
-            target.SetActive(false);
             DialogueHandler dialogueHandler = target.GetComponent<Connect>().dh;
             _timesHit++;
 

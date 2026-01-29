@@ -22,11 +22,6 @@ public class EnableDisable : MonoBehaviour
         if (dialogueHandler != null && !keepCurrentIndex)
             dialogueHandler.StartDialogue();
 
-        //if (character != null && character == DialogueHandler.Character.Outlaw)
-        //{
-        //    dialogueHandler.TriggerOutlawEntrance();
-        //}
-
         objectToToggle.SetActive(true);
     }
 
@@ -40,4 +35,6 @@ public class EnableDisable : MonoBehaviour
 
         objectToToggle.SetActive(false);
     }
+
+    public bool IsEnabled() => objectToToggle.activeSelf;
 }

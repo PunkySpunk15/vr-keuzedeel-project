@@ -22,9 +22,9 @@ public class DialogueHandler : MonoBehaviour
 
     private readonly List<Dialogue> _informantDialogue = new() {
         new("Hey there, seems like yer the new sheriff.. wanna know a few things?", false),
-        new("Right there on the table in front of ya is a paper with that wanted outlaw's face on 't.", false),
+        new("Folks say he's comin' to town to stir the pot once again.. y'know.. the outlaw?", false),
+        new("Maybe y've seen a paper with that wanted outlaw's face on 't laying around.", false),
         new("Take a look, yer gonna need to watch out fer him.", false),
-        new("Folks say he's comin' to town to stir the pot once again..", false),
         new("Hey, listen..", false),
         new("I'd like to see what yer made of, how's 'bout we duel outside fer a minute?", true),
         new("Good ol' fashioned duel, pull the trigger when it's time.", false),

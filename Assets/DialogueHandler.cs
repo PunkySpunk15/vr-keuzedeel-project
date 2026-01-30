@@ -13,28 +13,30 @@ public class DialogueHandler : MonoBehaviour
     }
 
     private readonly List<Dialogue> _guideDialogue = new() {
-        new("Howdy, wanna practice yer aim?", false),
-        new("I'll go easy on ya, but I will shoot after yer headstart of 3 seconds is up.", true),
-        new("Alright, remember to only shoot when the timer hits zero! No playin' dirty 'round these parts.", false),
-        new("Ya got me, good work!", false),
-        new("Head over to the saloon, y' earned a gut warmer.", false)
+        new("Howdy, wanna practice yer aim?", false, 0),
+        new("I'll go easy on ya, but I will shoot after yer headstart of 3 seconds is up.", true, 0),
+        new("Alright, remember to only shoot when the timer hits zero! No playin' dirty 'round these parts.", false, 1),
+        new("Woah!", false, 2),
+        new("Ya got me, good work!", false, 3),
+        new("Head over to the saloon, y' earned a gut warmer.", false, 4)
     };
 
     private readonly List<Dialogue> _informantDialogue = new() {
-        new("Hey there, seems like yer the new sheriff.. wanna know a few things?", false),
-        new("Folks say he's comin' to town to stir the pot once again.. y'know.. the outlaw?", false),
-        new("Maybe y've seen a paper with that wanted outlaw's face on 't laying around.", false),
-        new("Take a look, yer gonna need to watch out fer him.", false),
-        new("Hey, listen..", false),
-        new("I'd like to see what yer made of, how's 'bout we duel outside fer a minute?", true),
-        new("Good ol' fashioned duel, pull the trigger when it's time.", false),
-        new("Woah, guess y' got what 't takes..", false)
+        new("Hey there, seems like yer the new sheriff.. wanna know a few things?", false, 0),
+        new("Folks say he's comin' to town to stir the pot once again.. y'know.. the outlaw?", false, 0),
+        new("Maybe y've seen a paper with that wanted outlaw's face on 't laying around.", false, 0),
+        new("Take a look, yer gonna need to watch out fer him.", false, 0),
+        new("Hey, listen..", false, 0),
+        new("I'd like to see what yer made of, how's 'bout we duel outside fer a minute?", true, 0),
+        new("Good ol' fashioned duel, pull the trigger when it's time.", false, 1),
+        new("Woah, guess y' got what 't takes..", false, 3)
     };
 
     private readonly List<Dialogue> _outlawDialogue = new() {
-        new("I see the new sheriff is gettin' all roostered up in the midday!", false),
-        new("Ha, y' look like you've been rode hard 'n put up wet!", false),
-        new("I'll make y' hallow, cowboy.", true)
+        new("...", false, 0),
+        new("I see the new sheriff is gettin' all roostered up in the midday!", false, 1),
+        new("Ha, y' look like you've been rode hard 'n put up wet!", false, 1),
+        new("I'll make y' hallow, cowboy.", true, 1)
     };
 
     //UI elements
@@ -46,7 +48,7 @@ public class DialogueHandler : MonoBehaviour
     public EnableDisable duelCanvas;
 
     //Objects
-    public GameObject characterObject;
+    public List<GameObject> characterObjects;
     public GameObject player;
     public GameObject spawnPoint;
     public GameObject grabToMove;
@@ -56,6 +58,7 @@ public class DialogueHandler : MonoBehaviour
     public Duel duel;
     public SitDown sd;
     private int _index = 0;
+    private GameObject _lastCharacterObject;
 
     //Colors
     private Color _blue = new(0, 239, 255, 100);
@@ -65,15 +68,20 @@ public class DialogueHandler : MonoBehaviour
     public void StartDialogue()
     {
         ResetIndex();
-        textElement.text = character switch
+        List<Dialogue> dialogue = character switch
         {
-            Character.Guide => _guideDialogue[_index].Text,
-            Character.Informant => _informantDialogue[_index].Text,
-            Character.Outlaw => _outlawDialogue[_index].Text,
-            _ => ""
+            Character.Guide => _guideDialogue,
+            Character.Informant => _informantDialogue,
+            Character.Outlaw => _outlawDialogue
         };
 
+        textElement.text = dialogue[_index].Text;
+
         buttonTextElement.text = "Next >>";
+
+        int index = dialogue[_index].CharacterObjectIndex;
+        Debug.Log(index);
+        _lastCharacterObject = characterObjects[index];
     }
 
     public void NextDialogue()
@@ -85,12 +93,14 @@ public class DialogueHandler : MonoBehaviour
             Character.Outlaw => _outlawDialogue
         };
 
+        _lastCharacterObject = SetCharacterObject(dialogue[_index].CharacterObjectIndex);
+
         _index++;
 
         if (_index + 1 > dialogue.Count && character is not Character.Outlaw)
         {
             ed.Disable();
-            characterObject.SetActive(false);
+            _lastCharacterObject.SetActive(false);
             return;
         }
 
@@ -107,17 +117,17 @@ public class DialogueHandler : MonoBehaviour
         {
             //Send player to duel location
             CharacterController cc = player.GetComponent<CharacterController>();
-            Destroy(characterObject.GetComponent<CheckplayerDistance>());
+            Destroy(_lastCharacterObject.GetComponent<CheckplayerDistance>());
 
             switch (character)
             {
                 case Character.Informant:
                 case Character.Guide:
-                    characterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x, characterObject.transform.position.y, spawnPoint.transform.position.z - 5f), spawnPoint.transform.rotation);
+                    _lastCharacterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x, _lastCharacterObject.transform.position.y, spawnPoint.transform.position.z - 5f), spawnPoint.transform.rotation);
                     canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 1.5f, canvas.transform.position.y - 0.5f, spawnPoint.transform.position.z - 3f), spawnPoint.transform.rotation);
                     break;
                 case Character.Outlaw:
-                    characterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 4f, characterObject.transform.position.y, spawnPoint.transform.position.z), spawnPoint.transform.rotation);
+                    _lastCharacterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 4f, _lastCharacterObject.transform.position.y, spawnPoint.transform.position.z), spawnPoint.transform.rotation);
                     canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 3f, canvas.transform.position.y - 0.5f, spawnPoint.transform.position.z + 1.5f), spawnPoint.transform.rotation);
                     break;
             }
@@ -182,7 +192,7 @@ public class DialogueHandler : MonoBehaviour
         ed.Enable(true);
         grabToMove.SetActive(true);
 
-        characterObject.AddComponent<CheckplayerDistance>().minDistanceMoved = 2;
+        _lastCharacterObject.AddComponent<CheckplayerDistance>().minDistanceMoved = 2;
 
         textElement.text = dialogue[_index].Text;
 
@@ -205,6 +215,16 @@ public class DialogueHandler : MonoBehaviour
 
     public void ResetIndex() => _index = 0;
 
+    public GameObject SetCharacterObject(int index)
+    {
+        GameObject newCharacterObject = characterObjects[index];
+
+        _lastCharacterObject.SetActive(false);
+        newCharacterObject.SetActive(true);
+
+        return newCharacterObject;
+    }
+
     public void TriggerOutlawEntrance()
     {
         sd.RotatePlayer();
@@ -216,11 +236,13 @@ public class DialogueHandler : MonoBehaviour
     {
         public string Text { get; set; }
         public bool StartsDuel { get; set; }
+        public int CharacterObjectIndex { get; set; }
 
-        public Dialogue(string text, bool startsDuel)
+        public Dialogue(string text, bool startsDuel, int characterObjectIndex)
         {
             Text = text;
             StartsDuel = startsDuel;
+            CharacterObjectIndex = characterObjectIndex;
         }
     }
 }

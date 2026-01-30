@@ -11,7 +11,9 @@ public class Counter : MonoBehaviour
     public List<FireGun> fg = new();
     public DialogueHandler.Character character;
     public Duel duel;
+    public AudioSource gunShot;
 
+    private DialogueHandler _dh;
     private bool _retryDuel = false;
     private int _timesFailed = 0;
 
@@ -46,7 +48,10 @@ public class Counter : MonoBehaviour
                     )
                )
             {
-                //Play gun shoot sound
+                gunShot.Play();
+                if (character is DialogueHandler.Character.Informant)
+                    _dh.SetCharacterObject(2);
+
                 _retryDuel = true;
 
                 duel.active = false;
@@ -57,13 +62,14 @@ public class Counter : MonoBehaviour
                     gun.allowFire = false;
                 }
 
-                _timesFailed++;
+                ++_timesFailed;
             }
 
             if (timerCount <= -1
                 && character is DialogueHandler.Character.Outlaw)
             {
-                //Play gun shoot sound
+                gunShot.Play();
+                _dh.SetCharacterObject(3);
                 duel.active = false;
                 textElement.text = "You lost.";
                 textElement.GetComponent<TextMeshProUGUI>().color = timerTextElement.GetComponent<TextMeshProUGUI>().color;

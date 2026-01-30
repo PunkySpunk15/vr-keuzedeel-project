@@ -3,7 +3,12 @@ guid: 33bfcb709c26a0e4d9409d7fa8fe14a5
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 3-shot_lost
+    second: {fileID: 2100000, guid: ef95aa6fdf038614f86794d9008240b7, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

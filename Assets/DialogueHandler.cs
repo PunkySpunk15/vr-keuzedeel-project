@@ -16,7 +16,6 @@ public class DialogueHandler : MonoBehaviour
         new("Howdy, wanna practice yer aim?", false, 0),
         new("I'll go easy on ya, but I will shoot after yer headstart of 3 seconds is up.", true, 0),
         new("Alright, remember to only shoot when the timer hits zero! No playin' dirty 'round these parts.", false, 1),
-        new("Woah!", false, 2),
         new("Ya got me, good work!", false, 3),
         new("Head over to the saloon, y' earned a gut warmer.", false, 4)
     };
@@ -27,7 +26,7 @@ public class DialogueHandler : MonoBehaviour
         new("Maybe y've seen a paper with that wanted outlaw's face on 't laying around.", false, 0),
         new("Take a look, yer gonna need to watch out fer him.", false, 0),
         new("Hey, listen..", false, 0),
-        new("I'd like to see what yer made of, how's 'bout we duel outside fer a minute?", true, 0),
+        new("I'd like to see what yer made of, how's 'bout we duel outside fer a minute?", true, 1),
         new("Good ol' fashioned duel, pull the trigger when it's time.", false, 1),
         new("Woah, guess y' got what 't takes..", false, 3)
     };
@@ -54,11 +53,14 @@ public class DialogueHandler : MonoBehaviour
     public GameObject grabToMove;
 
     //Misc
-    public EnableDisable ed;
     public Duel duel;
     public SitDown sd;
+    public GameObject lastCharacterObject;
+    public EnableDisable zaraEd;
+    public EnableDisable zaraTableEd;
+    public EnableDisable zaraHorseEd;
     private int _index = 0;
-    private GameObject _lastCharacterObject;
+    private EnableDisable _ed;
 
     //Colors
     private Color _blue = new(0, 239, 255, 100);
@@ -80,8 +82,8 @@ public class DialogueHandler : MonoBehaviour
         buttonTextElement.text = "Next >>";
 
         int index = dialogue[_index].CharacterObjectIndex;
-        Debug.Log(index);
-        _lastCharacterObject = characterObjects[index];
+        lastCharacterObject = characterObjects[index];
+        _ed = lastCharacterObject.GetComponent<EnableDisable>();
     }
 
     public void NextDialogue()
@@ -93,21 +95,21 @@ public class DialogueHandler : MonoBehaviour
             Character.Outlaw => _outlawDialogue
         };
 
-        _lastCharacterObject = SetCharacterObject(dialogue[_index].CharacterObjectIndex);
+        lastCharacterObject = SetCharacterObject(dialogue[_index].CharacterObjectIndex);
 
         _index++;
 
         if (_index + 1 > dialogue.Count && character is not Character.Outlaw)
         {
-            ed.Disable();
-            _lastCharacterObject.SetActive(false);
+            _ed.Disable();
+            lastCharacterObject.SetActive(false);
             return;
         }
 
         if (buttonTextElement.text is "Start the duel >>")
         {
             duel.StartDuel();
-            ed.Disable(true);
+            _ed.Disable(true);
             duelCanvas.Enable();
 
             return;
@@ -117,17 +119,25 @@ public class DialogueHandler : MonoBehaviour
         {
             //Send player to duel location
             CharacterController cc = player.GetComponent<CharacterController>();
-            Destroy(_lastCharacterObject.GetComponent<CheckplayerDistance>());
+            Destroy(lastCharacterObject.GetComponent<CheckplayerDistance>());
 
             switch (character)
             {
                 case Character.Informant:
                 case Character.Guide:
-                    _lastCharacterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x, _lastCharacterObject.transform.position.y, spawnPoint.transform.position.z - 5f), spawnPoint.transform.rotation);
+                    foreach (GameObject characterObject in characterObjects)
+                    {
+                        characterObject.transform.SetPositionAndRotation(
+                            new Vector3(spawnPoint.transform.position.x, characterObject.transform.position.y, spawnPoint.transform.position.z - 5f),
+                            new Quaternion(characterObject.transform.rotation.x, 0f, characterObject.transform.rotation.z, characterObject.transform.rotation.w)
+                           );
+                    }
                     canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 1.5f, canvas.transform.position.y - 0.5f, spawnPoint.transform.position.z - 3f), spawnPoint.transform.rotation);
                     break;
                 case Character.Outlaw:
-                    _lastCharacterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 4f, _lastCharacterObject.transform.position.y, spawnPoint.transform.position.z), spawnPoint.transform.rotation);
+                    foreach (GameObject characterObject in characterObjects)
+                        characterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 4f, characterObject.transform.position.y, spawnPoint.transform.position.z), spawnPoint.transform.rotation);
+
                     canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 3f, canvas.transform.position.y - 0.5f, spawnPoint.transform.position.z + 1.5f), spawnPoint.transform.rotation);
                     break;
             }
@@ -147,6 +157,10 @@ public class DialogueHandler : MonoBehaviour
                 duel.StartDuel();
                 canvas.GetComponent<EnableDisable>().Disable();
                 duelCanvas.Enable();
+
+                zaraTableEd.Disable();
+                zaraEd.Enable();
+                zaraHorseEd.Enable();
 
                 return;
             }
@@ -189,10 +203,10 @@ public class DialogueHandler : MonoBehaviour
             Character.Outlaw => _outlawDialogue
         };
 
-        ed.Enable(true);
+        _ed.Enable(true);
         grabToMove.SetActive(true);
 
-        _lastCharacterObject.AddComponent<CheckplayerDistance>().minDistanceMoved = 2;
+        lastCharacterObject.AddComponent<CheckplayerDistance>().minDistanceMoved = 2;
 
         textElement.text = dialogue[_index].Text;
 
@@ -219,8 +233,9 @@ public class DialogueHandler : MonoBehaviour
     {
         GameObject newCharacterObject = characterObjects[index];
 
-        _lastCharacterObject.SetActive(false);
+        lastCharacterObject.SetActive(false);
         newCharacterObject.SetActive(true);
+        _ed = lastCharacterObject.GetComponent<EnableDisable>();
 
         return newCharacterObject;
     }
@@ -230,6 +245,11 @@ public class DialogueHandler : MonoBehaviour
         sd.RotatePlayer();
 
         //Then enable sounds and finally regular dialogue handling.
+    }
+    private void Update()
+    {
+        if (!duel.active && !grabToMove.activeSelf)
+            grabToMove.SetActive(true);
     }
 
     class Dialogue

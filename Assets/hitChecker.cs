@@ -15,6 +15,14 @@ public class HitChecker : MonoBehaviour
 
             if (_timesHit == 1)
             {
+                int index = dialogueHandler.character switch
+                {
+                    DialogueHandler.Character.Informant => 3,
+                    DialogueHandler.Character.Guide => 2,
+                    DialogueHandler.Character.Outlaw => 4
+                };
+
+                dialogueHandler.SetCharacterObject(index);
                 dialogueHandler.StartAfterDuelDialogue();
                 _timesHit = 0;
             }

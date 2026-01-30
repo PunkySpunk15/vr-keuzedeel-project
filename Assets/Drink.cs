@@ -4,11 +4,17 @@ public class Drink : MonoBehaviour
 {
     public GameObject whiskeyObject;
     public ParticleSystem particleSystem;
+    public AudioSource audio;
 
     void Update()
     {
         if (IsUpsideDown(whiskeyObject.transform))
+        {
             particleSystem.Play();
+            audio.Play();
+        }
+        else
+            audio.Stop();
     }
 
     bool IsUpsideDown(Transform objectTransfrom)

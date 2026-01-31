@@ -231,8 +231,8 @@ public class DialogueHandler : MonoBehaviour
 
     private void HandleWinOutlawDuel()
     {
-        TextMeshProUGUI text = duelCanvas.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI timerText = duelCanvas.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI text = duelCanvas.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI timerText = duelCanvas.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
 
         text.text = "You won!!";
         timerText.text = string.Empty;
@@ -257,8 +257,6 @@ public class DialogueHandler : MonoBehaviour
     public void TriggerOutlawEntrance()
     {
         sd.RotatePlayer();
-
-        //Then enable sounds and finally regular dialogue handling.
     }
 
     class Dialogue

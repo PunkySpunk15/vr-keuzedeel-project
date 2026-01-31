@@ -31,7 +31,7 @@ public class Counter : MonoBehaviour
 
             if (_timerCount <= 4
                 && character is DialogueHandler.Character.Informant)
-                dh.SetCharacterObject(1);
+                dh.lastCharacterObject = dh.SetCharacterObject(1);
 
             if (
                 (
@@ -47,7 +47,7 @@ public class Counter : MonoBehaviour
             {
                 gunShot.Play();
                 if (character is DialogueHandler.Character.Informant)
-                    dh.SetCharacterObject(2);
+                    dh.lastCharacterObject = dh.SetCharacterObject(2);
 
                 _retryDuel = true;
 
@@ -62,7 +62,7 @@ public class Counter : MonoBehaviour
                 && character is DialogueHandler.Character.Outlaw)
             {
                 gunShot.Play();
-                dh.SetCharacterObject(3);
+                dh.lastCharacterObject = dh.SetCharacterObject(3);
                 duel.active = false;
                 textElement.text = "You lost.";
                 textElement.GetComponent<TextMeshProUGUI>().color = timerTextElement.GetComponent<TextMeshProUGUI>().color;

@@ -81,5 +81,9 @@ public class Counter : MonoBehaviour
             duel.StartDuel();
             _retryDuel = false;
         }
+
+        if (!duel.active)
+            foreach (FireGun gun in fg)
+                gun.allowFire = false;
     }
 }

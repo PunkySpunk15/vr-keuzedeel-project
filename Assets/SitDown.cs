@@ -46,7 +46,7 @@ public class SitDown : MonoBehaviour
         if (cc != null)
             cc.enabled = false;
 
-        player.transform.rotation = sitPoint.transform.rotation;
+        player.transform.rotation = new Quaternion(sitPoint.transform.rotation.x, 0f, sitPoint.transform.rotation.z, sitPoint.transform.rotation.w);
 
         if (cc != null)
             cc.enabled = true;

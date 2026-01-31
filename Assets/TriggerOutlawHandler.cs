@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class TriggerOutlawHandler : MonoBehaviour
 {
+    public EnableDisable outlawEd;
     public EnableDisable canvasEd;
     public DialogueHandler dh;
     public AudioSource audio;
@@ -37,9 +38,7 @@ public class TriggerOutlawHandler : MonoBehaviour
             !_hasBeenTriggered
            )
         {
-            EnableDisable outlawEd = dh.lastCharacterObject.GetComponent<EnableDisable>();
             outlawEd.Enable();
-
             audio.Play();
             canvasEd.Enable();
             dh.TriggerOutlawEntrance();

@@ -50,6 +50,7 @@ public class DialogueHandler : MonoBehaviour
     public List<GameObject> characterObjects;
     public GameObject player;
     public GameObject spawnPoint;
+    public GameObject outlawSpawnPoint;
     public GameObject grabToMove;
 
     //Misc
@@ -95,8 +96,6 @@ public class DialogueHandler : MonoBehaviour
             Character.Outlaw => _outlawDialogue
         };
 
-        lastCharacterObject = SetCharacterObject(dialogue[_index].CharacterObjectIndex);
-
         _index++;
 
         if (_index + 1 > dialogue.Count && character is not Character.Outlaw)
@@ -117,26 +116,31 @@ public class DialogueHandler : MonoBehaviour
 
         if (buttonTextElement.text is "Take up the offer >>" or "Face the outlaw ..")
         {
-            //Send player to duel location
             CharacterController cc = player.GetComponent<CharacterController>();
-            Destroy(lastCharacterObject.GetComponent<CheckplayerDistance>());
+
+            foreach (GameObject characterObject in characterObjects)
+                Destroy(characterObject.GetComponent<CheckplayerDistance>());
 
             switch (character)
             {
                 case Character.Informant:
                 case Character.Guide:
                     foreach (GameObject characterObject in characterObjects)
-                    {
                         characterObject.transform.SetPositionAndRotation(
-                            new Vector3(spawnPoint.transform.position.x, characterObject.transform.position.y, spawnPoint.transform.position.z - 5f),
+                            new Vector3(spawnPoint.transform.position.x, (
+                            character is Character.Informant
+                                ? spawnPoint.transform.position.y
+                                : characterObject.transform.position.y), spawnPoint.transform.position.z - 5f),
                             new Quaternion(characterObject.transform.rotation.x, 0f, characterObject.transform.rotation.z, characterObject.transform.rotation.w)
                            );
-                    }
+
                     canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 1.5f, canvas.transform.position.y - 0.5f, spawnPoint.transform.position.z - 3f), spawnPoint.transform.rotation);
                     break;
                 case Character.Outlaw:
                     foreach (GameObject characterObject in characterObjects)
-                        characterObject.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 4f, characterObject.transform.position.y, spawnPoint.transform.position.z), spawnPoint.transform.rotation);
+                        characterObject.transform.SetPositionAndRotation(
+                            new Vector3(spawnPoint.transform.position.x - 2f, spawnPoint.transform.position.y, spawnPoint.transform.position.z),
+                            outlawSpawnPoint.transform.rotation);
 
                     canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 3f, canvas.transform.position.y - 0.5f, spawnPoint.transform.position.z + 1.5f), spawnPoint.transform.rotation);
                     break;
@@ -161,6 +165,7 @@ public class DialogueHandler : MonoBehaviour
                 zaraTableEd.Disable();
                 zaraEd.Enable();
                 zaraHorseEd.Enable();
+                lastCharacterObject = SetCharacterObject(2);
 
                 return;
             }
@@ -171,6 +176,7 @@ public class DialogueHandler : MonoBehaviour
         }
 
         textElement.text = dialogue[_index].Text;
+        lastCharacterObject = SetCharacterObject(dialogue[_index].CharacterObjectIndex);
 
         if (dialogue[_index].StartsDuel)
         {
@@ -206,9 +212,10 @@ public class DialogueHandler : MonoBehaviour
         _ed.Enable(true);
         grabToMove.SetActive(true);
 
-        lastCharacterObject.AddComponent<CheckplayerDistance>().minDistanceMoved = 2;
-
         textElement.text = dialogue[_index].Text;
+        lastCharacterObject = SetCharacterObject(dialogue[_index].CharacterObjectIndex);
+        foreach (GameObject characterObject in characterObjects)
+            characterObject.AddComponent<CheckplayerDistance>().minDistanceMoved = 2;
 
         buttonTextElement.text = "Next >>";
         button.transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 60f);

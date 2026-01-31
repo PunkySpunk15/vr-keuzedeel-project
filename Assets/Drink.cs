@@ -13,8 +13,6 @@ public class Drink : MonoBehaviour
             particleSystem.Play();
             audio.Play();
         }
-        else
-            audio.Stop();
     }
 
     bool IsUpsideDown(Transform objectTransfrom)

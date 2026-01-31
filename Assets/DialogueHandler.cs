@@ -139,10 +139,10 @@ public class DialogueHandler : MonoBehaviour
                 case Character.Outlaw:
                     foreach (GameObject characterObject in characterObjects)
                         characterObject.transform.SetPositionAndRotation(
-                            new Vector3(spawnPoint.transform.position.x - 2f, spawnPoint.transform.position.y, spawnPoint.transform.position.z),
+                            new Vector3(spawnPoint.transform.position.x - 6f, spawnPoint.transform.position.y, spawnPoint.transform.position.z),
                             outlawSpawnPoint.transform.rotation);
 
-                    canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 3f, canvas.transform.position.y - 0.5f, spawnPoint.transform.position.z + 1.5f), spawnPoint.transform.rotation);
+                    canvas.transform.SetPositionAndRotation(new Vector3(spawnPoint.transform.position.x - 4f, canvas.transform.position.y - 0.5f, spawnPoint.transform.position.z + 1.5f), spawnPoint.transform.rotation);
                     break;
             }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HitChecker : MonoBehaviour
@@ -6,11 +7,16 @@ public class HitChecker : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        Debug.Log($"Target HIT.{collision.transform.gameObject.tag}");
         if (collision.transform.CompareTag("target"))
         {
             GameObject target = collision.transform.gameObject;
             DialogueHandler dialogueHandler = target.GetComponent<Connect>().dh;
+            Duel duel = target.GetComponent<Connect>().duel;
+            List<FireGun> fg = target.GetComponent<Connect>().fg;
+
+            if (!duel.active)
+                return;
+
             _timesHit++;
 
             if (_timesHit == 1)
@@ -21,6 +27,9 @@ public class HitChecker : MonoBehaviour
                     DialogueHandler.Character.Guide => 2,
                     DialogueHandler.Character.Outlaw => 4
                 };
+
+                foreach (FireGun gun in fg)
+                    gun.allowFire = false;
 
                 dialogueHandler.SetCharacterObject(index);
                 dialogueHandler.StartAfterDuelDialogue();

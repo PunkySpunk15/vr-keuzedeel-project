@@ -31,7 +31,7 @@ public class HitChecker : MonoBehaviour
                 foreach (FireGun gun in fg)
                     gun.allowFire = false;
 
-                dialogueHandler.SetCharacterObject(index);
+                dialogueHandler.lastCharacterObject = dialogueHandler.SetCharacterObject(index);
                 dialogueHandler.StartAfterDuelDialogue();
                 _timesHit = 0;
             }

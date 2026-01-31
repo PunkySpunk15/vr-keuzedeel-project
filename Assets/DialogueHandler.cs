@@ -16,7 +16,8 @@ public class DialogueHandler : MonoBehaviour
         new("Howdy, wanna practice yer aim?", false, 0),
         new("I'll go easy on ya, but I will shoot after yer headstart of 3 seconds is up.", true, 0),
         new("Alright, remember to only shoot when the timer hits zero! No playin' dirty 'round these parts.", false, 1),
-        new("Ya got me, good work!", false, 3),
+        new("Ya got me!", false, 2),
+        new("Good work, here's my badge.", false, 3),
         new("Head over to the saloon, y' earned a gut warmer.", false, 4)
     };
 
@@ -52,6 +53,7 @@ public class DialogueHandler : MonoBehaviour
     public GameObject spawnPoint;
     public GameObject outlawSpawnPoint;
     public GameObject grabToMove;
+    public GameObject badge;
 
     //Misc
     public Duel duel;
@@ -97,6 +99,9 @@ public class DialogueHandler : MonoBehaviour
         };
 
         _index++;
+
+        if (character is Character.Guide && _index == 4)
+            badge.SetActive(true);
 
         if (_index + 1 > dialogue.Count && character is not Character.Outlaw)
         {
@@ -213,9 +218,11 @@ public class DialogueHandler : MonoBehaviour
         grabToMove.SetActive(true);
 
         textElement.text = dialogue[_index].Text;
-        lastCharacterObject = SetCharacterObject(dialogue[_index].CharacterObjectIndex);
         foreach (GameObject characterObject in characterObjects)
+        {
             characterObject.AddComponent<CheckplayerDistance>().minDistanceMoved = 2;
+            characterObject.GetComponent<CheckplayerDistance>().start = characterObject;
+        }
 
         buttonTextElement.text = "Next >>";
         button.transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 60f);
@@ -224,13 +231,13 @@ public class DialogueHandler : MonoBehaviour
 
     private void HandleWinOutlawDuel()
     {
-        TextMeshProUGUI text = duelCanvas.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI timerText = duelCanvas.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI text = duelCanvas.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI timerText = duelCanvas.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>();
 
         text.text = "You won!!";
         timerText.text = string.Empty;
 
-        EnableDisable button = duelCanvas.transform.GetChild(2).gameObject.GetComponent<EnableDisable>();
+        EnableDisable button = duelCanvas.transform.GetChild(3).gameObject.GetComponent<EnableDisable>();
         button.Enable();
     }
 

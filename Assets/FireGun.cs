@@ -17,7 +17,7 @@ public class FireGun : MonoBehaviour
         else
         {
             GameObject bullet = Instantiate(PrefabBullet, BulletSpawnPoint.transform.position, this.transform.rotation);
-            bullet.GetComponent<Rigidbody>().velocity = (-bullet.transform.forward) * 15f;
+            bullet.GetComponent<Rigidbody>().velocity = (-bullet.transform.forward) * 20f;
             gunShotAudio.Play();
         }
     }

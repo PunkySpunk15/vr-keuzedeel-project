@@ -9,7 +9,9 @@ public class Duel : MonoBehaviour
     public void StartDuel()
     {
         active = true;
-        duelMusic.Play();
+        if (!duelMusic.isPlaying)
+            duelMusic.Play();
+
         genericMusic.Stop();
     }
 

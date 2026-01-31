@@ -4,7 +4,7 @@ public class SitDown : MonoBehaviour
 {
     public GameObject player;
     public GameObject sitPoint;
-    public GameObject grabToMove;
+    public EnableDisable grabToMove;
     public GameObject chair;
 
     public void SitPlayerDown()
@@ -21,12 +21,12 @@ public class SitDown : MonoBehaviour
             cc.enabled = false;
 
         player.transform.position = new Vector3(sitPoint.transform.position.x, player.transform.position.y, sitPoint.transform.position.z);
+        grabToMove.Disable();
 
         if (cc != null)
             cc.enabled = true;
 
         chair.GetComponent<CheckplayerDistance>().enabled = false;
-        grabToMove.SetActive(false);
     }
 
     public void GetUp()
@@ -36,7 +36,7 @@ public class SitDown : MonoBehaviour
             return;
 
         checkplayerDistance.enabled = true;
-        grabToMove.SetActive(true);
+        grabToMove.Enable();
     }
 
     public void RotatePlayer()

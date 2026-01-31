@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
-    public float timerCount = 6;
+    private float _timerCount = 11;
     public TextMeshProUGUI timerTextElement;
     public TextMeshProUGUI textElement;
     public EnableDisable button;
@@ -12,45 +12,42 @@ public class Counter : MonoBehaviour
     public DialogueHandler.Character character;
     public Duel duel;
     public AudioSource gunShot;
+    public DialogueHandler dh;
 
-    private DialogueHandler _dh;
     private bool _retryDuel = false;
-    private int _timesFailed = 0;
 
     private void Update()
     {
         if (duel.active)
         {
             if (!_retryDuel)
-                timerCount -= Time.deltaTime;
+                _timerCount -= Time.deltaTime;
 
-            if (timerCount <= 0)
-            {
+            if (_timerCount <= 0)
                 foreach (FireGun gun in fg)
-                {
                     gun.allowFire = true;
-                }
-            }
             else
-            {
-                timerTextElement.text = ((uint)timerCount).ToString();
-            }
+                timerTextElement.text = ((uint)_timerCount).ToString();
+
+            if (_timerCount <= 4
+                && character is DialogueHandler.Character.Informant)
+                dh.SetCharacterObject(1);
 
             if (
                 (
-                    timerCount <= -3
+                    _timerCount <= -3
                     && character is DialogueHandler.Character.Guide
                     )
                 ||
                     (
-                    timerCount <= -2
+                    _timerCount <= -2
                     && character is DialogueHandler.Character.Informant
                     )
                )
             {
                 gunShot.Play();
                 if (character is DialogueHandler.Character.Informant)
-                    _dh.SetCharacterObject(2);
+                    dh.SetCharacterObject(2);
 
                 _retryDuel = true;
 
@@ -58,18 +55,14 @@ public class Counter : MonoBehaviour
                 textElement.text = "Let's try again.";
 
                 foreach (FireGun gun in fg)
-                {
                     gun.allowFire = false;
-                }
-
-                ++_timesFailed;
             }
 
-            if (timerCount <= -1
+            if (_timerCount <= -1
                 && character is DialogueHandler.Character.Outlaw)
             {
                 gunShot.Play();
-                _dh.SetCharacterObject(3);
+                dh.SetCharacterObject(3);
                 duel.active = false;
                 textElement.text = "You lost.";
                 textElement.GetComponent<TextMeshProUGUI>().color = timerTextElement.GetComponent<TextMeshProUGUI>().color;
@@ -78,18 +71,13 @@ public class Counter : MonoBehaviour
                 button.Enable();
 
                 foreach (FireGun gun in fg)
-                {
                     gun.allowFire = false;
-                }
             }
-
-            if (_timesFailed > 2)
-                button.Enable();
         }
 
         if (_retryDuel)
         {
-            timerCount = 6;
+            _timerCount = 6;
             duel.StartDuel();
             _retryDuel = false;
         }

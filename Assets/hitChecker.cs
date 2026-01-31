@@ -6,7 +6,6 @@ public class HitChecker : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-
         if (collision.transform.CompareTag("target"))
         {
             GameObject target = collision.transform.gameObject;

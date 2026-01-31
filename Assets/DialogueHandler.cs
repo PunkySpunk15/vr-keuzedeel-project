@@ -186,7 +186,7 @@ public class DialogueHandler : MonoBehaviour
 
     public void StartAfterDuelDialogue()
     {
-        duel.active = false;
+        duel.StopDuel();
 
         if (character is Character.Outlaw)
         {
@@ -245,11 +245,6 @@ public class DialogueHandler : MonoBehaviour
         sd.RotatePlayer();
 
         //Then enable sounds and finally regular dialogue handling.
-    }
-    private void Update()
-    {
-        if (!duel.active && !grabToMove.activeSelf)
-            grabToMove.SetActive(true);
     }
 
     class Dialogue
